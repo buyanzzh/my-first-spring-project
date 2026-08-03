@@ -9,9 +9,6 @@ import java.util.*;
 @Slf4j
 @Service
 public class TreeService {
-    //冲突test2,第三次测试
-    //第三次冲突test2 ,master修改,产生冲突
-    //测试成功,冲突测试结束
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
