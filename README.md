@@ -4,7 +4,7 @@
 
 ## 技术栈
 - Java 8 / 17
-- Spring Boot 2.x
+- Spring Boot 3.x
 - MySQL
 - Redis
 - Maven
