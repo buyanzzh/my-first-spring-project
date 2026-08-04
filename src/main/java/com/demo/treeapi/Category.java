@@ -1,11 +1,13 @@
 package com.demo.treeapi; // 如果你的包名不是这个，改成你自己的包名
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String name;
     private int parentId;

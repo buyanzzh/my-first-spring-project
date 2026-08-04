@@ -8,6 +8,10 @@ spring:
         password: root
 
     data:
+        cache:
+            type: redis
+            redis:
+                time-to-live: 600000  # 10分钟
         redis:
             host: localhost
             port: 6379

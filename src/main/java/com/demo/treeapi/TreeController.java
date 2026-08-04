@@ -21,7 +21,6 @@ public class TreeController {
     public Category getTree() {
         log.info("收到全查询请求");
         return treeService.getTree();
-//        return new Category();
     }
 
     // 查询分类（按ID）

@@ -2,6 +2,7 @@ package com.demo.treeapi;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -14,7 +15,10 @@ public class TreeService {
     private JdbcTemplate jdbcTemplate;
 
     // 从数据库查出所有分类，拼成树，返回根节点
+    @Cacheable(value = "categoryTree")
     public Category getTree() {
+
+        log.info("查询全量菜单树 - 走数据库");
         // 1. 查询数据库
         String sql = "SELECT id, name, parent_id FROM category";
         //查询category表所有数据的sql语句
