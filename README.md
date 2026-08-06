@@ -67,3 +67,10 @@
 - `perf: parent_id 增加索引，Explain 分析通过`
 - `perf: getTree 接入 Redis 缓存`
 - `docs: 重写 README，明确业务定位`
+
+近期计划（2026-08-06）
+
+完成 /tree 接口 AOP 耗时统计切面
+配置 Logback 日志，区分 dev/prod
+部署到阿里云服务器（购买轻量服务器+域名）
+将 Swagger 页面公开访问，作为简历展示入口
