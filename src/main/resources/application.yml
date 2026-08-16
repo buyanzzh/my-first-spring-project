@@ -3,6 +3,7 @@ spring:
         name: treeapi
 
     datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver   # 必须是这个，不能是 com.mysql.jdbc.Driver
         url: jdbc:mysql://localhost:3306/tree?useSSL=false&serverTimezone=Asia/Shanghai
         username: root
         password: root
@@ -19,6 +20,17 @@ spring:
             lettuce:
                 pool:
                     max-active: 8
+
+    profiles:
+        active: dev
+
+    # ===== 新增以下 MyBatis-Plus 配置 =====
+    mybatis-plus:
+        mapper-locations: classpath*:/mapper/**/*.xml   # XML文件位置（暂时用不到，先保留）
+        type-aliases-package: com.entity     # 替换成你实体类所在的包路径
+        configuration:
+            map-underscore-to-camel-case: true             # 开启驼峰命名自动映射（重要！）
+            log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 控制台打印SQL（调试用）
 
 logging:
     level:
