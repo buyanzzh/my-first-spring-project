@@ -15,9 +15,12 @@
 ## 当前已完成
 
 - ✅ 分类树 CRUD（Spring Boot + MyBatis-Plus + MySQL）
+- ✅ TreeService 由 JdbcTemplate 迁移至 MyBatis-Plus（`LambdaQueryWrapper`），并完成 `com.demo → com.zzh` 包重命名
+- ✅ `@Around` AOP 耗时统计切面（CGLIB 代理）
+- ✅ Swagger 接口文档接入
 - ✅ `getTree()` 接入 Redis 缓存（`@Cacheable`），QPS 预估提升 10 倍以上
 - ✅ `parent_id` 增加索引，Explain 分析走 `range` + `ref`，解决慢查询隐患
-- ✅ Git 分支管理 + 冲突解决实战（仓库含 14 次提交记录）
+- ✅ Git 分支管理 + 冲突解决实战（仓库已含 24+ 次提交记录）
 - ✅ `application.yml` 多环境配置预留
 - 🚧 登录鉴权（Spring Security + JWT）—— 进行中
 - 🚧 AI 文案生成接口（DeepSeek）—— 计划中
@@ -26,14 +29,16 @@
 
 ## 技术栈
 
-| 模块 | 技术 |
-| :--- | :--- |
-| 基础框架 | Spring Boot 3.x |
-| ORM | MyBatis-Plus |
-| 数据库 | MySQL 8.0 |
-| 缓存 | Redis（`RedisTemplate` + `@Cacheable`） |
-| 项目管理 | Maven |
-| 版本控制 | Git（含分支合并与冲突解决） |
+| 模块   | 技术                                    |
+| :--- | :------------------------------------ |
+| 基础框架 | Spring Boot 3.x                       |
+| ORM  | MyBatis-Plus                          |
+| 数据库  | MySQL 8.0                             |
+| 缓存   | Redis（`RedisTemplate` + `@Cacheable`） |
+| 项目管理 | Maven                                 |
+| 版本控制 | Git（含分支合并与冲突解决）                       |
+
+
 
 ---
 
@@ -47,13 +52,13 @@
 
 ## 主要接口
 
-| 方法 | 路径 | 说明 |
-| :--- | :--- | :--- |
-| GET | `/tree` | 获取完整分类树（Redis 缓存） |
-| GET | `/node/{id}` | 获取单个节点 |
-| POST | `/category` | 新增分类节点 |
-| PUT | `/category` | 修改分类节点 |
-| DELETE | `/category/{id}` | 删除节点（含子节点处理） |
+| 方法     | 路径               | 说明                          |
+| :----- | :--------------- | :-------------------------- |
+| GET    | `/tree`          | 获取完整分类树（Redis 缓存）           |
+| GET    | `/node/{id}`     | 获取单个节点                      |
+| POST   | `/category`      | 新增分类节点                      |
+| PUT    | `/category`      | 修改分类节点                      |
+| DELETE | `/category/{id}` | 删除指定分类节点（注：当前仅删自身，未级联处理子节点） |
 
 ---
 
@@ -67,10 +72,11 @@
 - `perf: parent_id 增加索引，Explain 分析通过`
 - `perf: getTree 接入 Redis 缓存`
 - `docs: 重写 README，明确业务定位`
+- `refactor: TreeService 由 JdbcTemplate 迁移至 MyBatis-Plus，包重命名 com.zzh`
 
-近期计划（2026-08-06）
+近期计划（2026-08-16）
 
-完成 /tree 接口 AOP 耗时统计切面
-配置 Logback 日志，区分 dev/prod
-部署到阿里云服务器（购买轻量服务器+域名）
-将 Swagger 页面公开访问，作为简历展示入口
+- 配置 Logback 日志，区分 dev/prod
+- 部署到阿里云服务器（购买轻量服务器+域名）
+- 将 Swagger 页面公开访问，作为简历展示入口
+- 登录鉴权 Spring Security + JWT（进行中）
