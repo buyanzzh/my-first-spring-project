@@ -1,0 +1,21 @@
+### 1. 登录
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "123456"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+    client.log("已保存 token: " + response.body.token);
+%}
+
+### 2. 用刚登录拿到的 token 测权限（自动引用，不用手动粘贴）
+GET http://localhost:8080/api/admin/info
+Authorization: Bearer {{auth_token}}
+
+### 3. 验证当前 token 身份
+GET http://localhost:8080/api/me
+Authorization: Bearer {{auth_token}}

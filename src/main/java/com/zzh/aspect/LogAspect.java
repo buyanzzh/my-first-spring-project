@@ -14,7 +14,7 @@ public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
 
     // 拦截 com.xxx.controller 包下所有类的所有方法
-    @Around("execution(* com.zzh.treeapi.*.*(..))")
+    @Around("execution(* com.zzh.controller*.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         System.out.println("=== AOP 切面进来了 ===");
         long start = System.currentTimeMillis();
