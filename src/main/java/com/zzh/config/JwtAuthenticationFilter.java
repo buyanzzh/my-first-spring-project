@@ -44,23 +44,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // ② 验签 + 取 username（一次 parseToken，不再调两次）
         if (token != null) {
             try {
-                Claims claims = jwtUtil.parseToken(token);     // parseToken 内已含验签+验过期
-                String username = claims.getSubject();
+                Claims claims = jwtUtil.parseToken(token);
+                // parseToken 内已含验证签名+验过期
+                String username = claims.getSubject();         //subject 就是 username
 
                 // ③ 判 SecurityContext 为空（防重复）
                 if (username != null
                         && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    // ④ 重新查库 → 拿最新 authorities
+                    // ④ 重新查库 → 拿最新 authorities(权限)
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                    UsernamePasswordAuthenticationToken auth = 
+                    UsernamePasswordAuthenticationToken auth =   // ⭐ 创建
+                            // Authentication 对象(一张"已登录工牌"，上面写"你是谁 + 你有什么角色")
                         new UsernamePasswordAuthenticationToken(
                             userDetails,             // principal
                             null,                    // credentials 永存空
                             userDetails.getAuthorities()   // ⭐ 拿 ROLE_USER/ROLE_ADMIN
                         );
                     SecurityContextHolder.getContext().setAuthentication(auth);
+                    // 把工牌装进口袋 ← 这才是"装"的落点
                 }
             } catch (ExpiredJwtException e) {
                 log.warn("❌ JWT 已过期: {}", e.getMessage());

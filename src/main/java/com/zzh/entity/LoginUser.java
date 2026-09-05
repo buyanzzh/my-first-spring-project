@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +17,7 @@ public class LoginUser implements UserDetails {
     private User user;
 
     @Override
+    // 返回权限信息  authorities(权限)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 关键：Spring Security 约定角色前要加 "ROLE_" 前缀（@PreAuthorize("hasRole('USER')") 才能匹配）
         return Collections.singletonList(

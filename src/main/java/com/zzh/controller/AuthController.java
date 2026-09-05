@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 public class AuthController {
+	//vim测试
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -22,9 +23,9 @@ public class AuthController {
     // 登录：认证成功 → 发 token
     @PostMapping("/api/login")
     public Map<String, String> login(@RequestBody LoginRequest req) {
-        authenticationManager.authenticate(
+        authenticationManager.authenticate(         // ← 内部查库 + BCrypt 验密码
             new UsernamePasswordAuthenticationToken(req.username(), req.password()));
-        String token = jwtUtil.generateToken(req.username());
+        String token = jwtUtil.generateToken(req.username());       // 生成 token
         return Map.of("token", token);
     }
 
@@ -35,4 +36,5 @@ public class AuthController {
     }
 
     public record LoginRequest(String username, String password) {}
+
 }

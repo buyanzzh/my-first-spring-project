@@ -1,10 +1,10 @@
-package com.zzh.entity; // 如果你的包名不是这个，改成你自己的包名
+package com.zzh.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ public class Category implements Serializable{
     private String name;
     private Integer parentId;
 
-    @JsonIgnoreProperties("children")
     @TableField(exist = false)
     private List<Category> children;
 
@@ -35,13 +34,13 @@ public class Category implements Serializable{
 
     // Getter 和 Setter（Spring Boot 返回 JSON 必须要有这些）
     public Integer getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public Integer getParentId() { return parentId; }
-    public void setParentId(int parentId) { this.parentId = parentId; }
+    public void setParentId(Integer parentId) { this.parentId = parentId; }
 
     public List<Category> getChildren() { return children; }
     public void setChildren(List<Category> children) { this.children = children; }
@@ -51,6 +50,6 @@ public class Category implements Serializable{
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", parentId=" + parentId;
+                ", parentId=" + parentId + "}";
     }
 }

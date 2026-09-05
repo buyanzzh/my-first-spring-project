@@ -20,10 +20,10 @@ public class JwtUtil {
     }
     public String generateToken(String username) {
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getKey(), Jwts.SIG.HS256)
+                .subject(username)          //以username为subject
+                .issuedAt(new Date())          //签发时间
+                .expiration(new Date(System.currentTimeMillis() + expiration))          //过期时间
+                .signWith(getKey(), Jwts.SIG.HS256)     // 用 secret 签名
                 .compact();
     }
 

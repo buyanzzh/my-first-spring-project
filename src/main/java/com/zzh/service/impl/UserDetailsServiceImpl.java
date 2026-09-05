@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. 查 DB
+        // 1. 查 Database
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         User user = userMapper.selectOne(queryWrapper.eq(User::getUsername, username));
 

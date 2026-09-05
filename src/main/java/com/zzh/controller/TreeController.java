@@ -2,17 +2,16 @@ package com.zzh.controller;
 
 import com.zzh.entity.Category;
 import com.zzh.service.TreeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 
+@Slf4j
 @RestController
 public class TreeController {
 
-    private static final Logger log = LoggerFactory.getLogger(Category.class);
 
     @Autowired
     private TreeService treeService;
