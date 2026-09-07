@@ -1,7 +1,6 @@
 package com.zzh.controller;
 
 import com.zzh.utils.JwtUtil;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
