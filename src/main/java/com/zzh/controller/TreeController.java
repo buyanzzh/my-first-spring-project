@@ -5,6 +5,7 @@ import com.zzh.service.TreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -33,6 +34,7 @@ public class TreeController {
 
     // 新增分类
     @PostMapping("/category")
+    @PreAuthorize("hasAuthority('tree:add')")
     public String addCategory(@RequestBody Category category) {
         log.info("收到新增请求");
         int result = treeService.addCategory(category);
@@ -45,6 +47,7 @@ public class TreeController {
 
     // 删除分类（按ID）
     @DeleteMapping("/category/{id}")
+    @PreAuthorize("hasAuthority('tree:delete')")
     public String deleteCategory(@PathVariable int id) {
         log.info("收到删除请求，id：{}", id);
         boolean result = treeService.removeCategoryById(id);
@@ -53,6 +56,7 @@ public class TreeController {
 
     // 更新分类
     @PutMapping("/category")
+    @PreAuthorize("hasAuthority('tree:update')")
     public String updateCategory(@RequestBody Category category) {
         log.info("收到更新请求，category：{}", category);
         boolean result = treeService.updateCategory(category);

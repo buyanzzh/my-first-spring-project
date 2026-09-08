@@ -30,16 +30,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, 
                                      HttpServletResponse response,
                                      FilterChain filterChain) throws ServletException, IOException {
-
-        System.out.println("=== JwtFilter START, token=" + (request.getHeader("Authorization") != null ?
-                request.getHeader("Authorization").substring(0, 30) + "..." : "null"));
-
         // ① 剥前缀 → 取 token
-        String header = request.getHeader("Authorization");
-        String token = null;
-        if (header != null && header.startsWith("Bearer ")) {
-            token = header.substring(7);
+        String authHeader = request.getHeader("Authorization");
+        // 先判：没带 token 或格式不对 → 放行（login 等公开接口由此通过）
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+        String token = authHeader.substring(7);            // 剥（此时长度必然 ≥7，安全）
+        log.info("=== JwtFilter START, token={}", token);  // 用 log，别用 System.out
 
         // ② 验签 + 取 username（一次 parseToken，不再调两次）
         if (token != null) {

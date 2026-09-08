@@ -61,8 +61,6 @@ public class SecurityConfig {
                 //授权失败异常
                 .accessDeniedHandler(accessDeniedHandler));
 
-
-
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         return http.build();                                              // ⑤ Lambda DSL，用 .build() 收尾
