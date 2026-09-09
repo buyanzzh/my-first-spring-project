@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzh.entity.Category;
 import com.zzh.mapper.CategoryMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,13 @@ import java.util.Map;
 @Service
 public class TreeService {
 
-    @Autowired
-    CategoryMapper categoryMapper;
+    // 构造器注入：final 保证不可变，对象一造出来依赖就位，不会是 null
+    private final CategoryMapper categoryMapper;
+
+    // Spring 4.3+ 只有一个构造器时，@Autowired 可以省略
+    public TreeService(CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
+    }
 
     // 从数据库查出所有分类，拼成树，返回根节点
     @Cacheable(value = "category" , key = "'allTree'")

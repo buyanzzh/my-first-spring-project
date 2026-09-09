@@ -3,7 +3,6 @@ package com.zzh.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzh.entity.*;
 import com.zzh.mapper.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,22 +13,31 @@ import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+    // 所有依赖都是 final：一旦注入就不能再改
+    private final UserMapper userMapper;
+    private final RolePermissionMapper rolePermissionMapper;
+    private final UserRoleMapper userRoleMapper;
+    private final PermissionMapper permissionMapper;
+    private final RoleMapper roleMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private RolePermissionMapper rolePermissionMapper;
-    @Autowired
-    private UserRoleMapper userRoleMapper;
-    @Autowired
-    private PermissionMapper permissionMapper;
-    @Autowired
-    private RoleMapper roleMapper;
+    // 关键：只有「一个」构造器，所有依赖一次性列在参数里。
+    // 不是你自己 new，是 Spring 造这个 Bean 时，按参数类型从容器里找到对应的 Bean 塞进来。
+    public UserDetailsServiceImpl(UserMapper userMapper,
+                                  RolePermissionMapper rolePermissionMapper,
+                                  UserRoleMapper userRoleMapper,
+                                  PermissionMapper permissionMapper,
+                                  RoleMapper roleMapper) {
+        this.userMapper = userMapper;
+        this.rolePermissionMapper = rolePermissionMapper;
+        this.userRoleMapper = userRoleMapper;
+        this.permissionMapper = permissionMapper;
+        this.roleMapper = roleMapper;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 一 . 查 Database
-        //五表联查
+        // 五步单表查询（不是 JOIN 联查！面试别说错）：
+        // user → user_role → role → role_permission → permission
 
         //1 . user
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().

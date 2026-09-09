@@ -58,7 +58,7 @@ INSERT INTO permission (perm_key, name) VALUES
 DELETE FROM user_role;                            -- 推倒重来最干净（中间表就 2 行）
 INSERT INTO user_role (user_id, role_id) VALUES
             (2, 1),   -- admin(id=2) → ADMIN(role_id=1)
-            (1, 2);   -- test(id=1)  → USER(ro
+            (1, 2);   -- test(id=1)  → USER(role_id=2)
 INSERT INTO role_permission (role_id, permission_id) VALUES
             (1, 1), (1, 2), (1, 3), (1, 4),  -- ADMIN：全部权限
             (2, 1);                          -- USER：只读

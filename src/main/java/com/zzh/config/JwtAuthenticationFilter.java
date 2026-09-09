@@ -3,6 +3,7 @@ package com.zzh.config;
 import com.zzh.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwt;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,9 +21,12 @@ import org.slf4j.Logger;
 
 @Component   // ⭐ 让 Spring 把它注册成 Bean
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    @Autowired private JwtUtil jwtUtil;
-    @Autowired private UserDetailsService userDetailsService;   // ⭐ 字段，不是方法体
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 

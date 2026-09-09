@@ -4,13 +4,14 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private String role;
 
-    public User(Long id, String username, String password, String role) {
+    // MyBatis / MP 通过反射实例化实体，必须有无参构造器
+    public User() {}
+
+    public User(Long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
     }
 
     public Long getId() {
@@ -37,11 +38,4 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

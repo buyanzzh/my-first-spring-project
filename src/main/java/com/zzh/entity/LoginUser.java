@@ -1,18 +1,21 @@
 package com.zzh.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
-@Data
+// 不用 @Data：Lombok 生成的 toString()/equals() 会把 user.password 一起带出来，
+// 一旦被日志打印 = 把 BCrypt 哈希写进日志文件。改为手写 toString 排除密码。
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginUser implements UserDetails {
@@ -42,4 +45,12 @@ public class LoginUser implements UserDetails {
     @Override public boolean isAccountNonLocked()     { return true; }
     @Override public boolean isCredentialsNonExpired(){ return true; }
     @Override public boolean isEnabled()              { return true; }
+
+    // 手写 toString：只带用户名和权限，绝不带 password
+    @Override
+    public String toString() {
+        return "LoginUser{username='" + (user != null ? user.getUsername() : null) + "'"
+                + ", roles=" + roleKeys
+                + ", perms=" + permKeys + "}";
+    }
 }

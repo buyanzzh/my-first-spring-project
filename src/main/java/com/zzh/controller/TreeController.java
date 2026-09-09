@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 public class TreeController {
-
-
-    @Autowired
-    private TreeService treeService;
+    private final TreeService treeService;
+    private final RedisTemplate<String, String> redisTemplate;
+    public TreeController(TreeService treeService, RedisTemplate<String, String> redisTemplate) {
+        this.treeService = treeService;
+        this.redisTemplate = redisTemplate;
+    }
 
     // 全查询分类
     @GetMapping("/tree")
@@ -63,8 +65,6 @@ public class TreeController {
         return result ? "更新成功！" : "更新失败！";
     }
 
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     @GetMapping("/test-redis")
     public String testRedis() {

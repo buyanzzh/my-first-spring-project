@@ -22,7 +22,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.ArrayDeque;
 import java.util.List;
 
 @Configuration
@@ -30,16 +29,16 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final AccessDeniedHandler accessDeniedHandler;
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
+                          RestAuthenticationEntryPoint restAuthenticationEntryPoint,
+                          AccessDeniedHandler accessDeniedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
