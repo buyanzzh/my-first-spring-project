@@ -1,0 +1,28 @@
+package com.zzh.service;
+
+import com.zzh.entity.Category;
+import com.zzh.mapper.CategoryMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class DemoService {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    // 实验组入口：a 没有 @Transactional，a 里用 this 调 b
+    public void a() {
+        this.b("B-this调进来的");      // ⭐ 全部戏肉就在这一行：自己调自己类的方法
+    }
+
+    // b 有标签，谁调它炸了就该回滚——前提是"从外面"调它
+    @Transactional
+    public void b(String name) {
+        Category c = new Category();
+        c.setName(name);
+        categoryMapper.insert(c);      // 先写库
+        int x = 1 / 0;                 // 再炸
+    }
+}
