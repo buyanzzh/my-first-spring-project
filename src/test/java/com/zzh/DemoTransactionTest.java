@@ -32,4 +32,10 @@ public class DemoTransactionTest {
             System.out.println("B 炸了（这是预期的）：" + e.getMessage());
         }
     }
+    @Test
+    public void testC() {
+        demoService.demoCatch();
+        System.out.println("方法正常结束了，没有炸");
+    }
+
 }

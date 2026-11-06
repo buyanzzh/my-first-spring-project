@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, 
                                      HttpServletResponse response,
                                      FilterChain filterChain) throws ServletException, IOException {
-        // ① 剥前缀 → 取 token
+        // ①剥 :  剥前缀 → 取 token
         String authHeader = request.getHeader("Authorization");
         // 先判：没带 token 或格式不对 → 放行（login 等公开接口由此通过）
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -43,18 +43,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);            // 剥（此时长度必然 ≥7，安全）
         log.info("=== JwtFilter START, token={}", token);  // 用 log，别用 System.out
 
-        // ② 验签 + 取 username（一次 parseToken，不再调两次）
+        // ②验 :  验签 + 取 username（一次 parseToken，不再调两次）
         if (token != null) {
             try {
                 Claims claims = jwtUtil.parseToken(token);
                 // parseToken 内已含验证签名+验过期
                 String username = claims.getSubject();         //subject 就是 username
 
-                // ③ 判 SecurityContext 为空（防重复）
+                // ③空 :  判 SecurityContext 为空（防重复）
                 if (username != null
                         && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    // ④ 重新查库 → 拿最新 authorities(权限)
+                    // ④装 : 重新查库 → 拿最新 authorities(权限)
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken auth =   // ⭐ 创建
                             // Authentication 对象(一张"已登录工牌"，上面写"你是谁 + 你有什么角色")
